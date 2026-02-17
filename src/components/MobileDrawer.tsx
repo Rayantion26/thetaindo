@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { X, ChevronRight, Home, MapPin, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../lib/utils';
@@ -49,6 +49,7 @@ const productItems = [
 
 export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
     const location = useLocation();
+    const navigate = useNavigate();
     const drawerRef = useRef<HTMLDivElement>(null);
     const touchStartX = useRef(0);
     const touchCurrentX = useRef(0);
@@ -71,11 +72,10 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
     };
 
     const handleProductNav = (path: string) => {
-        const [pathname, hash] = path.split('#');
         onClose();
         // Use setTimeout to let drawer close animation start
         setTimeout(() => {
-            window.location.href = pathname + (hash ? '#' + hash : '');
+            navigate(path);
         }, 100);
     };
 
