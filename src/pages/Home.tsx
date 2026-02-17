@@ -7,10 +7,6 @@ const backgrounds = [
     "/images/landing_hero_theta.png", // Theta Lubricants (Buckets)
     "/images/landing_hero_omega.png", // Omega Belts
     "/images/landing_hero_zieta.png", // Zieta Electrodes
-    "/images/carousel_1.png",
-    "/images/carousel_2.png",
-    "/images/carousel_3.png",
-    "/images/carousel_4.png"
 ];
 
 const features = [
@@ -39,21 +35,18 @@ const features = [
 
 const slideVariants = {
     enter: (direction: number) => ({
-        x: direction > 0 ? 1000 : -1000,
-        opacity: 0,
-        scale: 1.1,
+        x: direction > 0 ? '100%' : '-100%',
+        opacity: 1,
     }),
     center: {
         zIndex: 1,
         x: 0,
         opacity: 1,
-        scale: 1,
     },
     exit: (direction: number) => ({
         zIndex: 0,
-        x: direction < 0 ? 1000 : -1000,
-        opacity: 0,
-        scale: 1.1,
+        x: direction < 0 ? '100%' : '-100%',
+        opacity: 1,
     }),
 };
 
@@ -77,7 +70,7 @@ export default function Home() {
     return (
         <div className="flex flex-col gap-24 pb-24">
             {/* Hero Section with Slideshow */}
-            <section className="relative h-[85vh] flex items-center justify-center overflow-hidden bg-background group">
+            <section className="relative h-screen flex items-center justify-center overflow-hidden bg-background group">
                 {/* Background Slideshow */}
                 <AnimatePresence initial={false} custom={direction}>
                     <motion.div
@@ -88,9 +81,8 @@ export default function Home() {
                         animate="center"
                         exit="exit"
                         transition={{
-                            x: { type: "spring", stiffness: 300, damping: 30 },
-                            opacity: { duration: 0.5 },
-                            scale: { duration: 0.5 }
+                            x: { type: "tween", duration: 0.6, ease: [0.4, 0, 0.2, 1] },
+                            opacity: { duration: 0.3 }
                         }}
                         className="absolute inset-0 z-0"
                     >
@@ -98,9 +90,9 @@ export default function Home() {
                             className="absolute inset-0 bg-cover bg-center"
                             style={{ backgroundImage: `url(${backgrounds[currentBgIndex]})` }}
                         />
-                        {/* Overlay for readability */}
-                        <div className="absolute inset-0 bg-black/60" />
-                        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
+                        {/* Subtle overlay for readability */}
+                        <div className="absolute inset-0 bg-black/50" />
+                        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background/80 to-transparent" />
                     </motion.div>
                 </AnimatePresence>
 

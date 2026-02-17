@@ -50,10 +50,10 @@ export default function ThetaProducts() {
                             <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">Produk Theta</h1>
                             <p className="text-muted-foreground font-medium">Solusi pelumas grease performa tinggi premium untuk kondisi ekstrem</p>
                         </div>
-                        <a href="tel:+628814038" className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity">
+                        <Link to="/contact" className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-primary-foreground font-semibold hover:opacity-90 transition-opacity">
                             <Phone className="w-4 h-4" />
                             Hubungi Kami
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>

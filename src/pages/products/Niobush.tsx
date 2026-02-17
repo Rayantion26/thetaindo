@@ -53,12 +53,18 @@ export default function NiobushProducts() {
                         className="rounded-3xl bg-card border border-border shadow-sm overflow-hidden"
                     >
                         <div className="grid md:grid-cols-3 gap-8">
-                            <div className="md:col-span-1 relative aspect-square bg-gradient-to-br from-green-500/10 to-green-600/5 flex items-center justify-center p-8">
-                                <div className="absolute inset-0 opacity-5 bg-green-500" />
-                                <span className="text-9xl font-bold text-green-500/20 absolute">N</span>
-                                <div className="relative text-center">
-                                    <div className="text-6xl font-bold text-green-600 mb-2">{product.name.split(' ')[1]}</div>
-                                    <div className="text-sm text-muted-foreground uppercase tracking-wider">Niobush</div>
+                            <div className="md:col-span-1 relative aspect-square bg-gradient-to-br from-green-500/10 to-green-600/5 overflow-hidden">
+                                <img
+                                    src={`/images/niobush_${product.name.split(' ')[1].toLowerCase()}.png`}
+                                    alt={product.name}
+                                    className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                        e.currentTarget.style.display = 'none';
+                                        e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                                    }}
+                                />
+                                <div className="hidden absolute inset-0 flex items-center justify-center">
+                                    <span className="text-9xl font-bold text-green-500/20">N</span>
                                 </div>
                             </div>
 

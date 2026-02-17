@@ -30,12 +30,18 @@ export default function OmegaProducts() {
                 className="rounded-3xl bg-card border border-border shadow-sm overflow-hidden"
             >
                 <div className="grid md:grid-cols-3 gap-8">
-                    <div className="md:col-span-1 relative aspect-square bg-gradient-to-br from-orange-500/10 to-orange-600/5 flex items-center justify-center p-8">
-                        <div className="absolute inset-0 opacity-5 bg-orange-500" />
-                        <span className="text-9xl font-bold text-orange-500/20 absolute">Ω</span>
-                        <div className="relative text-center">
-                            <div className="text-6xl font-bold text-orange-600 mb-2">Omega</div>
-                            <div className="text-sm text-muted-foreground uppercase tracking-wider">V-Belt</div>
+                    <div className="md:col-span-1 relative aspect-square bg-gradient-to-br from-orange-500/10 to-orange-600/5 overflow-hidden">
+                        <img
+                            src="/images/omega_vbelt.png"
+                            alt="Omega V-Belt"
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                            }}
+                        />
+                        <div className="hidden absolute inset-0 flex items-center justify-center">
+                            <span className="text-9xl font-bold text-orange-500/20">Ω</span>
                         </div>
                     </div>
 
