@@ -8,9 +8,10 @@ export default function Layout() {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const location = useLocation();
 
-    // Close drawer on route change
+    // Close drawer and scroll to top on route change
     useEffect(() => {
         setIsDrawerOpen(false);
+        window.scrollTo(0, 0);
     }, [location.pathname]);
 
     return (
@@ -25,7 +26,7 @@ export default function Layout() {
                         key={location.pathname}
                         initial={{ opacity: 0, y: -40 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0 }}
+                        exit={{ opacity: 0, y: -40 }}
                         transition={{
                             duration: 0.25,
                             ease: [0.25, 0.1, 0.25, 1],

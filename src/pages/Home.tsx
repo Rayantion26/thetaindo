@@ -3,10 +3,17 @@ import { ArrowRight, Star, Shield, Zap, TrendingUp, ChevronLeft, ChevronRight } 
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const backgrounds = [
-    "/images/landing_hero_theta.png", // Theta Lubricants (Buckets)
-    "/images/landing_hero_omega.png", // Omega Belts
-    "/images/landing_hero_zieta.png", // Zieta Electrodes
+const desktopBackgrounds = [
+    "/images/landing_hero_theta.png",
+    "/images/landing_hero_omega.png",
+    "/images/landing_hero_zieta.png",
+];
+
+const mobileBackgrounds = [
+    "/images/product_theta.png",
+    "/images/product_omega.png",
+    "/images/product_niobush.png",
+    "/images/product_zieta.png",
 ];
 
 const features = [
@@ -52,8 +59,16 @@ const slideVariants = {
 
 export default function Home() {
     const [[page, direction], setPage] = useState([0, 0]);
+    const [isMobile, setIsMobile] = useState(false);
 
-    // We calculate the index based on the page state
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    const backgrounds = isMobile ? mobileBackgrounds : desktopBackgrounds;
     const currentBgIndex = Math.abs(page % backgrounds.length);
 
     const paginate = (newDirection: number) => {
@@ -281,37 +296,38 @@ export default function Home() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1 }}
-                            className="group relative overflow-hidden rounded-3xl bg-card border border-border shadow-sm hover:shadow-md transition-all"
                         >
-                            <div className="flex flex-col md:flex-row gap-6 p-6 md:p-8 items-center">
-                                <div className="w-full md:w-2/5 aspect-square relative rounded-2xl overflow-hidden bg-secondary/50 flex-shrink-0">
-                                    <img
-                                        src={product.image}
-                                        alt={product.name}
-                                        className="absolute inset-0 w-full h-full object-cover"
-                                        onError={(e) => {
-                                            e.currentTarget.style.display = 'none';
-                                        }}
-                                    />
-                                    <div className={`absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity ${product.color}`} />
-                                    <span className="absolute inset-0 flex items-center justify-center text-6xl font-bold text-muted-foreground/20 uppercase tracking-widest">{product.name[0]}</span>
-                                </div>
-                                <div className="flex-1">
-                                    <div className="mb-3 inline-block px-3 py-1 rounded-full bg-secondary text-secondary-foreground text-sm font-medium">
-                                        {product.subtitle}
+                            <Link
+                                to={product.id === 'theta' ? '/products/theta' : `/${product.id}`}
+                                className="group block relative overflow-hidden rounded-3xl bg-card border border-border shadow-sm hover:shadow-md transition-all cursor-pointer"
+                            >
+                                <div className="flex flex-col md:flex-row gap-6 p-6 md:p-8 items-center">
+                                    <div className="w-full md:w-2/5 aspect-square relative rounded-2xl overflow-hidden bg-secondary/50 flex-shrink-0">
+                                        <img
+                                            src={product.image}
+                                            alt={product.name}
+                                            className="absolute inset-0 w-full h-full object-cover"
+                                            onError={(e) => {
+                                                e.currentTarget.style.display = 'none';
+                                            }}
+                                        />
+                                        <div className={`absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity ${product.color}`} />
+                                        <span className="absolute inset-0 flex items-center justify-center text-6xl font-bold text-muted-foreground/20 uppercase tracking-widest">{product.name[0]}</span>
                                     </div>
-                                    <h3 className="text-2xl md:text-3xl font-bold mb-3">{product.name}</h3>
-                                    <p className="text-muted-foreground text-base md:text-lg mb-6 leading-relaxed">
-                                        {product.description}
-                                    </p>
-                                    <Link
-                                        to={product.id === 'theta' ? '/products/theta' : `/${product.id}`}
-                                        className="inline-flex items-center gap-2 font-medium text-primary hover:text-primary/80 transition-colors"
-                                    >
-                                        Pelajari Lebih Lanjut <ArrowRight className="w-5 h-5" />
-                                    </Link>
+                                    <div className="flex-1">
+                                        <div className="mb-3 inline-block px-3 py-1 rounded-full bg-secondary text-secondary-foreground text-sm font-medium">
+                                            {product.subtitle}
+                                        </div>
+                                        <h3 className="text-2xl md:text-3xl font-bold mb-3">{product.name}</h3>
+                                        <p className="text-muted-foreground text-base md:text-lg mb-6 leading-relaxed">
+                                            {product.description}
+                                        </p>
+                                        <span className="inline-flex items-center gap-2 font-medium text-primary group-hover:text-primary/80 transition-colors">
+                                            Pelajari Lebih Lanjut <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
+                            </Link>
                         </motion.div>
                     ))}
                 </div>
