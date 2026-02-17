@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { X, ChevronRight, Home, MapPin, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../lib/utils';
-import ProductDropdown from './ProductDropdown';
 
 interface MobileDrawerProps {
     isOpen: boolean;
@@ -16,9 +15,69 @@ const menuItems = [
     { path: '/contact', label: 'Hubungi Kami', icon: Phone },
 ];
 
+const productItems = [
+    {
+        name: 'Theta', path: '/products/theta', description: 'Grease (Gemuk)',
+        subItems: [
+            { name: 'Theta 106', path: '/products/theta#theta-106' },
+            { name: 'Theta 107', path: '/products/theta#theta-107' },
+            { name: 'Theta 108', path: '/products/theta#theta-108' },
+        ]
+    },
+    {
+        name: 'Omega', path: '/omega', description: 'V-Belting',
+        subItems: []
+    },
+    {
+        name: 'Niobush', path: '/niobush', description: 'Nylon Bushing',
+        subItems: [
+            { name: 'Niobush Green', path: '/niobush#niobush-green' },
+            { name: 'Niobush Black', path: '/niobush#niobush-black' },
+        ]
+    },
+    {
+        name: 'Zieta', path: '/zieta', description: 'Welding Electrodes',
+        subItems: [
+            { name: 'Zieta 308', path: '/zieta#zieta-308' },
+            { name: 'Zieta 309', path: '/zieta#zieta-309' },
+            { name: 'Zieta 310', path: '/zieta#zieta-310' },
+            { name: 'Zieta 312', path: '/zieta#zieta-312' },
+            { name: 'Zieta 316', path: '/zieta#zieta-316' },
+        ]
+    },
+];
+
 export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
     const location = useLocation();
     const drawerRef = useRef<HTMLDivElement>(null);
+    const touchStartX = useRef(0);
+    const touchCurrentX = useRef(0);
+
+    const handleTouchStart = (e: React.TouchEvent) => {
+        touchStartX.current = e.touches[0].clientX;
+        touchCurrentX.current = e.touches[0].clientX;
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        touchCurrentX.current = e.touches[0].clientX;
+    };
+
+    const handleTouchEnd = () => {
+        const diff = touchStartX.current - touchCurrentX.current;
+        // Swipe left by more than 80px = close
+        if (diff > 80) {
+            onClose();
+        }
+    };
+
+    const handleProductNav = (path: string) => {
+        const [pathname, hash] = path.split('#');
+        onClose();
+        // Use setTimeout to let drawer close animation start
+        setTimeout(() => {
+            window.location.href = pathname + (hash ? '#' + hash : '');
+        }, 100);
+    };
 
     return (
         <AnimatePresence>
@@ -40,14 +99,9 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
                         animate={{ x: 0 }}
                         exit={{ x: '-100%' }}
                         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                        drag="x"
-                        dragConstraints={{ left: -300, right: 0 }}
-                        dragElastic={0.1}
-                        onDragEnd={(_, { offset, velocity }) => {
-                            if (offset.x < -100 || velocity.x < -500) {
-                                onClose();
-                            }
-                        }}
+                        onTouchStart={handleTouchStart}
+                        onTouchMove={handleTouchMove}
+                        onTouchEnd={handleTouchEnd}
                         className="fixed top-0 left-0 bottom-0 z-50 w-[80%] max-w-sm bg-background border-r border-border shadow-2xl flex flex-col"
                     >
                         <div className="p-4 border-b border-border flex items-center justify-between">
@@ -84,7 +138,19 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
                                         </Link>
                                     );
                                 })}
-                                <ProductDropdown isMobile={true} />
+
+                                {/* Product Section */}
+                                <div className="mt-2 pt-2 border-t border-border">
+                                    <span className="px-4 py-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">Produk</span>
+                                    {productItems.map((product) => (
+                                        <MobileProductItem
+                                            key={product.path}
+                                            product={product}
+                                            onClose={onClose}
+                                            onNavigate={handleProductNav}
+                                        />
+                                    ))}
+                                </div>
                             </nav>
                         </div>
 
@@ -97,5 +163,40 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
                 </>
             )}
         </AnimatePresence>
+    );
+}
+
+interface MobileProductItemProps {
+    product: typeof productItems[0];
+    onClose: () => void;
+    onNavigate: (path: string) => void;
+}
+
+function MobileProductItem({ product, onClose, onNavigate }: MobileProductItemProps) {
+    return (
+        <div className="flex flex-col">
+            <Link
+                to={product.path}
+                onClick={onClose}
+                className="flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-sm font-semibold hover:bg-accent text-foreground hover:text-accent-foreground"
+            >
+                <span className="flex-1">{product.name}</span>
+                <span className="text-xs text-muted-foreground">{product.description}</span>
+                <ChevronRight className="w-4 h-4 text-muted-foreground/50" />
+            </Link>
+            {product.subItems.length > 0 && (
+                <div className="ml-8 flex flex-col gap-0.5 mb-1">
+                    {product.subItems.map((sub) => (
+                        <button
+                            key={sub.path}
+                            onClick={() => onNavigate(sub.path)}
+                            className="text-left px-3 py-2 rounded-md text-xs font-medium text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+                        >
+                            {sub.name}
+                        </button>
+                    ))}
+                </div>
+            )}
+        </div>
     );
 }

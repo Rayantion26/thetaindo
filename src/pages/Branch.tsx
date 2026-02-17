@@ -103,8 +103,13 @@ export default function Branch() {
                                 transition={{ delay: index * 0.1 }}
                                 className="group rounded-2xl bg-card border border-border shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col h-full"
                             >
-                                {/* Embedded Map */}
-                                <div className="h-56 w-full bg-secondary/30 relative border-b border-border">
+                                {/* Embedded Map - Click to Open Google Maps */}
+                                <a
+                                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(branch.address)}`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="block h-56 w-full bg-secondary/30 relative border-b border-border cursor-pointer overflow-hidden"
+                                >
                                     <iframe
                                         width="100%"
                                         height="100%"
@@ -114,12 +119,13 @@ export default function Branch() {
                                         marginWidth={0}
                                         title={`Map of ${branch.city}`}
                                         src={`https://maps.google.com/maps?q=${encodeURIComponent(branch.address)}&t=&z=15&ie=UTF8&iwloc=&output=embed`}
-                                        className="absolute inset-0 w-full h-full grayscale group-hover:grayscale-0 transition-all duration-500"
+                                        className="absolute inset-0 w-full h-full grayscale group-hover:grayscale-0 transition-all duration-500 pointer-events-none"
                                         loading="lazy"
+                                        tabIndex={-1}
                                     ></iframe>
-                                    {/* Overlay for interaction handling */}
-                                    <div className="absolute inset-0 pointer-events-none group-hover:pointer-events-auto bg-transparent" />
-                                </div>
+                                    {/* Transparent overlay to ensure click is captured by anchor */}
+                                    <div className="absolute inset-0 bg-transparent" />
+                                </a>
 
                                 <div className="p-5 flex flex-col flex-grow justify-between">
                                     <div>

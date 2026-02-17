@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { useLocation, useOutlet } from 'react-router-dom';
 import Navbar from './Navbar';
 import MobileDrawer from './MobileDrawer';
 import SearchOverlay from './SearchOverlay';
@@ -10,43 +10,109 @@ export default function Layout() {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const location = useLocation();
 
-    // Close drawer and scroll to top on route change
+    // Use useOutlet hook to get the actual element for the current route
+    const currentOutlet = useOutlet();
+    // frozenOutlet holds the route element that we want to display.
+    // We only update this AFTER the whiteboard overlay covers the screen.
+    const [frozenOutlet, setFrozenOutlet] = useState(currentOutlet);
+
+    const [showOverlay, setShowOverlay] = useState(false);
+    const isFirstRender = useRef(true);
+
+    // Handle route changes and transition
     useEffect(() => {
         setIsDrawerOpen(false);
-        window.scrollTo(0, 0);
-    }, [location.pathname]);
+
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            setFrozenOutlet(currentOutlet);
+            return;
+        }
+
+        // 1. Start overlay slide down
+        setShowOverlay(true);
+
+        // 2. After overlay fully covers screen (400ms animation), swap the page content behind it
+        const swapTimer = setTimeout(() => {
+            setFrozenOutlet(currentOutlet);
+            window.scrollTo(0, 0);
+        }, 450);
+
+        // 3. After content has swapped, slide overlay back up into the ceiling to reveal new page
+        const revealTimer = setTimeout(() => {
+            setShowOverlay(false);
+        }, 650);
+
+        return () => {
+            clearTimeout(swapTimer);
+            clearTimeout(revealTimer);
+        };
+    }, [location.pathname, currentOutlet]);
+
+    // Swipe to open drawer logic
+    const touchStartX = useRef(0);
+    const touchStartY = useRef(0);
+
+    const handleTouchStart = (e: React.TouchEvent) => {
+        touchStartX.current = e.touches[0].clientX;
+        touchStartY.current = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e: React.TouchEvent) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const touchEndY = e.changedTouches[0].clientY;
+
+        const dist = touchEndX - touchStartX.current;
+        const yDist = Math.abs(touchEndY - touchStartY.current);
+
+        // If swipe right > 50px and vertical movement is small (intentional horizontal swipe)
+        // AND start point was near the left edge (< 30px)
+        if (dist > 50 && yDist < 50 && touchStartX.current < 30) {
+            setIsDrawerOpen(true);
+        }
+    };
 
     return (
-        <div className="flex flex-col min-h-screen bg-background text-foreground font-sans overflow-x-hidden">
+        <div
+            className="flex flex-col min-h-screen bg-background text-foreground font-sans overflow-x-hidden"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+        >
             <Navbar onMenuClick={() => setIsDrawerOpen(true)} onSearchClick={() => setIsSearchOpen(true)} />
 
             <MobileDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
             <SearchOverlay isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
-            <main className="flex-grow pt-16">
-                <AnimatePresence mode="wait">
+            {/* Whiteboard Overlay */}
+            <AnimatePresence>
+                {showOverlay && (
                     <motion.div
-                        key={location.pathname}
-                        initial={{ opacity: 0, y: -100 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -100 }}
-                        transition={{
-                            duration: 0.3,
-                            ease: [0.25, 0.1, 0.25, 1],
-                        }}
-                        className="w-full"
+                        key="whiteboard"
+                        initial={{ y: '-100%' }}
+                        animate={{ y: '0%' }}
+                        exit={{ y: '-100%' }}
+                        transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+                        className="fixed inset-0 z-50 bg-background flex items-center justify-center"
                     >
-                        <Outlet />
+                        <img
+                            src={`${import.meta.env.BASE_URL}images/logo.png`}
+                            alt="Thetaindo"
+                            className="h-16 w-auto object-contain opacity-80"
+                            onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                            }}
+                        />
                     </motion.div>
-                </AnimatePresence>
+                )}
+            </AnimatePresence>
+
+            <main className="flex-grow pt-16">
+                {frozenOutlet}
             </main>
 
             <footer className="bg-card border-t border-border mt-auto">
                 <div className="container mx-auto px-4 py-12">
                     <div className="grid md:grid-cols-3 gap-8 text-center md:text-left">
-                        {/* Use Link from react-router-dom instead of a tag to prevent reload */}
-                        {/* Import Link at top of file first: import { Link } from 'react-router-dom'; */}
-
                         {/* Office Section */}
                         <div>
                             <h3 className="font-bold text-lg mb-4">Office</h3>
@@ -75,7 +141,7 @@ export default function Layout() {
                             </ul>
                         </div>
 
-                        {/* Social & Links - Keeping it simple per user request for Office/Contact mainly */}
+                        {/* Brand Section */}
                         <div className="flex flex-col items-center md:items-start text-center md:text-left">
                             <div className="flex items-center gap-2 mb-4">
                                 <img

@@ -10,13 +10,20 @@ interface SearchOverlayProps {
 
 const searchableItems = [
     { name: 'Beranda', path: '/', keywords: ['home', 'beranda', 'utama'] },
-    { name: 'Theta - Grease Performa Tinggi', path: '/products/theta', keywords: ['theta', 'grease', 'pelumas', 'lubricant', '106', '107', '108'] },
-    { name: 'Theta 106 - Aluminium Complex Grease', path: '/products/theta', keywords: ['theta 106', 'aluminium', 'complex', 'grease'] },
-    { name: 'Theta 107 - Lithium Complex Grease', path: '/products/theta', keywords: ['theta 107', 'lithium', 'complex', 'grease'] },
-    { name: 'Theta 108 - Polyurea Grease', path: '/products/theta', keywords: ['theta 108', 'polyurea', 'grease'] },
+    { name: 'Theta - Grease Performa Tinggi', path: '/products/theta', keywords: ['theta', 'grease', 'pelumas', 'lubricant'] },
+    { name: 'Theta 106 - Aluminium Complex Grease', path: '/products/theta#theta-106', keywords: ['theta 106', 'aluminium', 'complex', 'grease'] },
+    { name: 'Theta 107 - Lithium Complex Grease', path: '/products/theta#theta-107', keywords: ['theta 107', 'lithium', 'complex', 'grease'] },
+    { name: 'Theta 108 - Polyurea Grease', path: '/products/theta#theta-108', keywords: ['theta 108', 'polyurea', 'grease'] },
     { name: 'Omega - V-Belt', path: '/omega', keywords: ['omega', 'v-belt', 'vbelt', 'belt', 'sabuk', 'transmisi'] },
-    { name: 'Niobush - Bushing Nilon', path: '/niobush', keywords: ['niobush', 'bushing', 'nilon', 'nylon', 'green', 'black'] },
-    { name: 'Zieta - Elektroda Las', path: '/zieta', keywords: ['zieta', 'elektroda', 'las', 'welding', 'electrode', 'stainless', '308', '309', '310', '312', '316'] },
+    { name: 'Niobush - Bushing Nilon', path: '/niobush', keywords: ['niobush', 'bushing', 'nilon', 'nylon'] },
+    { name: 'Niobush Green', path: '/niobush#niobush-green', keywords: ['niobush green', 'bushing', 'hijau'] },
+    { name: 'Niobush Black', path: '/niobush#niobush-black', keywords: ['niobush black', 'bushing', 'hitam'] },
+    { name: 'Zieta - Elektroda Las', path: '/zieta', keywords: ['zieta', 'elektroda', 'las', 'welding', 'electrode'] },
+    { name: 'Zieta 308', path: '/zieta#zieta-308', keywords: ['zieta 308', 'stainless', 'welding'] },
+    { name: 'Zieta 309', path: '/zieta#zieta-309', keywords: ['zieta 309', 'stainless', 'welding'] },
+    { name: 'Zieta 310', path: '/zieta#zieta-310', keywords: ['zieta 310', 'stainless', 'welding'] },
+    { name: 'Zieta 312', path: '/zieta#zieta-312', keywords: ['zieta 312', 'stainless', 'welding'] },
+    { name: 'Zieta 316', path: '/zieta#zieta-316', keywords: ['zieta 316', 'stainless', 'welding'] },
     { name: 'Cabang Kami', path: '/branch', keywords: ['cabang', 'branch', 'lokasi', 'alamat', 'kantor', 'office'] },
     { name: 'Hubungi Kami', path: '/contact', keywords: ['hubungi', 'contact', 'telepon', 'whatsapp', 'kontak'] },
 ];
@@ -50,8 +57,22 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
         : [];
 
     const handleSelect = (path: string) => {
-        navigate(path);
+        const [pathname, hash] = path.split('#');
+        navigate(pathname);
         onClose();
+
+        // If there's a hash, scroll to that element after navigation
+        if (hash) {
+            setTimeout(() => {
+                const el = document.getElementById(hash);
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // Brief highlight effect
+                    el.classList.add('ring-2', 'ring-primary', 'ring-offset-2');
+                    setTimeout(() => el.classList.remove('ring-2', 'ring-primary', 'ring-offset-2'), 2000);
+                }
+            }, 700); // Wait for whiteboard transition to finish
+        }
     };
 
     return (

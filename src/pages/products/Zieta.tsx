@@ -131,10 +131,11 @@ export default function ZietaProducts() {
                             {category.items.map((item) => (
                                 <a
                                     key={item.name}
+                                    id={item.name.toLowerCase().replace(/ /g, '-')}
                                     href={item.brochure}
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="group flex items-center justify-between p-4 rounded-xl bg-secondary/50 hover:bg-secondary transition-colors border border-border hover:border-purple-500/50"
+                                    className="group flex items-center justify-between p-4 rounded-xl bg-secondary/50 hover:bg-secondary transition-colors border border-border hover:border-purple-500/50 scroll-mt-24"
                                 >
                                     <span className="font-medium">{item.name}</span>
                                     <Download className="w-4 h-4 text-muted-foreground group-hover:text-purple-600 transition-colors" />
