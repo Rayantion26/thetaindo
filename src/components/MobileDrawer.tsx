@@ -1,8 +1,9 @@
 import { useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { X, ChevronRight, Home, Info, Package, Phone, MapPin } from 'lucide-react';
+import { X, ChevronRight, Home, MapPin, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '../lib/utils';
+import ProductDropdown from './ProductDropdown';
 
 interface MobileDrawerProps {
     isOpen: boolean;
@@ -11,8 +12,6 @@ interface MobileDrawerProps {
 
 const menuItems = [
     { path: '/', label: 'Beranda', icon: Home },
-    { path: '/about-us', label: 'Tentang Kami', icon: Info },
-    { path: '/products', label: 'Produk', icon: Package },
     { path: '/branch', label: 'Cabang Kami', icon: MapPin },
     { path: '/contact', label: 'Hubungi Kami', icon: Phone },
 ];
@@ -73,10 +72,10 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
                                             to={item.path}
                                             onClick={onClose}
                                             className={cn(
-                                                "flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-sm font-medium",
+                                                "flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-sm font-semibold",
                                                 isActive
                                                     ? "bg-primary text-primary-foreground shadow-sm"
-                                                    : "hover:bg-accent text-muted-foreground hover:text-foreground"
+                                                    : "hover:bg-accent text-foreground hover:text-accent-foreground"
                                             )}
                                         >
                                             <Icon className="w-5 h-5" />
@@ -85,6 +84,7 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
                                         </Link>
                                     );
                                 })}
+                                <ProductDropdown isMobile={true} />
                             </nav>
                         </div>
 

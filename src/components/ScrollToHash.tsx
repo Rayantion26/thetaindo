@@ -1,19 +1,30 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export default function ScrollToHash() {
-    const { hash } = useLocation();
+    const location = useLocation();
 
     useEffect(() => {
-        if (hash) {
-            const element = document.getElementById(hash.replace("#", ""));
+        if (location.hash) {
+            // Remove the # from the hash
+            const id = location.hash.replace('#', '');
+            const element = document.getElementById(id);
+
             if (element) {
-                element.scrollIntoView({ behavior: "smooth" });
+                // Get the navbar height (64px = h-16 in Tailwind)
+                const navbarHeight = 64;
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
             }
         } else {
             window.scrollTo(0, 0);
         }
-    }, [hash]);
+    }, [location.hash, location.pathname]);
 
     return null;
 }

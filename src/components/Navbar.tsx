@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Menu, Search } from 'lucide-react';
+import ProductDropdown from './ProductDropdown';
 
 
 interface NavbarProps {
@@ -33,11 +34,10 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
             </div>
 
             <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
-                <Link to="/" className="hover:text-foreground transition-colors">Beranda</Link>
-                <Link to="/about-us" className="hover:text-foreground transition-colors">Tentang Kami</Link>
-                <Link to="/products" className="hover:text-foreground transition-colors">Produk</Link>
-                <Link to="/branch" className="hover:text-foreground transition-colors">Cabang Kami</Link>
-                <Link to="/contact" className="hover:text-foreground transition-colors">Hubungi Kami</Link>
+                <Link to="/" className="hover:text-primary transition-colors">Beranda</Link>
+                <ProductDropdown />
+                <Link to="/branch" className="hover:text-primary transition-colors">Cabang Kami</Link>
+                <Link to="/contact" className="hover:text-primary transition-colors">Hubungi Kami</Link>
             </div>
 
             <div className="flex items-center gap-2">

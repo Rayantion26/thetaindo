@@ -1,13 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
-import About from './pages/About';
-import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import Branch from './pages/Branch';
 import Contact from './pages/Contact';
 import ScrollToHash from './components/ScrollToHash';
 import ThetaProducts from './pages/products/Theta';
+import NiobushProducts from './pages/products/Niobush';
+import OmegaProducts from './pages/products/Omega';
+import ZietaProducts from './pages/products/Zieta';
 
 function App() {
   return (
@@ -16,9 +17,10 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/about-us" element={<About />} />
-          <Route path="/products" element={<Products />} />
           <Route path="/products/theta" element={<ThetaProducts />} />
+          <Route path="/niobush" element={<NiobushProducts />} />
+          <Route path="/omega" element={<OmegaProducts />} />
+          <Route path="/zieta" element={<ZietaProducts />} />
           <Route path="/branch" element={<Branch />} />
           <Route path="/:productSlug" element={<ProductDetail />} />
           <Route path="/contact" element={<Contact />} />

@@ -4,10 +4,13 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const backgrounds = [
-    "/images/carousel_1.jpg",
-    "/images/carousel_2.jpg",
-    "/images/carousel_3.jpg",
-    "/images/carousel_4.jpg"
+    "/images/landing_hero_theta.png", // Theta Lubricants (Buckets)
+    "/images/landing_hero_omega.png", // Omega Belts
+    "/images/landing_hero_zieta.png", // Zieta Electrodes
+    "/images/carousel_1.png",
+    "/images/carousel_2.png",
+    "/images/carousel_3.png",
+    "/images/carousel_4.png"
 ];
 
 const features = [
@@ -33,12 +36,6 @@ const features = [
     },
 ];
 
-const products = [
-    { name: "Theta", category: "Grease (Gemuk)", color: "bg-blue-500" },
-    { name: "Omega", category: "V-Belting", color: "bg-orange-500" },
-    { name: "Niobush", category: "Nylon Bushing", color: "bg-green-500" },
-    { name: "Zieta", category: "Welding Electrodes", color: "bg-purple-500" },
-];
 
 const slideVariants = {
     enter: (direction: number) => ({
@@ -187,158 +184,143 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Best Products Section (User Requested) */}
-            <section className="container px-4 mx-auto">
+            {/* About Us Section */}
+            <section id="tentang-kami" className="container px-4 mx-auto">
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                    >
+                        <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Tentang Thetaindo Prima Kencana</h2>
+                        <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
+                            Thetaindo Prima Kencana adalah penyedia utama komponen dan solusi industri berkinerja tinggi.
+                            Kami mengkhususkan diri dalam menghadirkan produk unggulan termasuk gemuk (grease), V-belt, bushing nilon, dan elektroda las untuk berbagai industri.
+                        </p>
+                        <h3 className="text-xl font-bold mb-3">Misi Kami</h3>
+                        <p className="text-muted-foreground mb-6 leading-relaxed">
+                            Untuk memberdayakan industri dengan komponen yang andal dan berkinerja tinggi yang menjamin efisiensi operasional dan umur panjang mesin.
+                        </p>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="p-4 rounded-xl bg-card border border-border">
+                                <h4 className="font-bold mb-1">Jaminan Kualitas</h4>
+                                <p className="text-sm text-muted-foreground">Standar internasional</p>
+                            </div>
+                            <div className="p-4 rounded-xl bg-card border border-border">
+                                <h4 className="font-bold mb-1">Dukungan Ahli</h4>
+                                <p className="text-sm text-muted-foreground">Panduan teknis</p>
+                            </div>
+                        </div>
+                    </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        className="aspect-video rounded-3xl overflow-hidden bg-muted"
+                    >
+                        <img
+                            src="/images/about_us.png"
+                            alt="Professional Welder"
+                            className="object-cover w-full h-full"
+                            onError={(e) => {
+                                e.currentTarget.src = "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80";
+                            }}
+                        />
+                    </motion.div>
+                </div>
+            </section>
+
+
+
+
+            {/* Products Section */}
+            <section id="produk" className="container px-4 mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     className="text-center mb-16"
                 >
-                    <p className="text-muted-foreground mb-2">Best Products</p>
-                    <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-primary">Products Thetaindo Prima Kencana</h2>
+                    <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">Produk Kami</h2>
+                    <p className="text-xl text-muted-foreground">
+                        Temukan rangkaian solusi industri komprehensif kami, yang direkayasa untuk performa dan keandalan.
+                    </p>
                 </motion.div>
 
                 <div className="grid md:grid-cols-2 gap-8">
-                    {/* Theta */}
-                    <motion.div
-                        whileHover={{ y: -5 }}
-                        className="bg-card rounded-3xl p-6 shadow-sm border border-border flex flex-col md:flex-row items-center gap-6"
-                    >
-                        <div className="w-full md:w-1/2 aspect-square relative rounded-xl overflow-hidden bg-white flex items-center justify-center">
-                            <img
-                                src="/images/theta_grease.jpg"
-                                alt="Theta Grease"
-                                className="object-contain w-full h-full"
-                                onError={(e) => {
-                                    e.currentTarget.src = "https://placehold.co/400x400/fbbf24/000000?text=Theta+Grease";
-                                }}
-                            />
-                        </div>
-                        <div className="flex-1 text-left">
-                            <h3 className="text-2xl font-bold mb-2">Theta ( Grease )</h3>
-                            <p className="text-muted-foreground mb-6">Thetaindo Prima Kencana Product Theta</p>
-                            <Link
-                                to="/products#theta"
-                                className="inline-block px-6 py-2 rounded-full bg-yellow-400 text-black font-bold hover:bg-yellow-500 transition-colors"
-                            >
-                                Read More
-                            </Link>
-                        </div>
-                    </motion.div>
-
-                    {/* Omega */}
-                    <motion.div
-                        whileHover={{ y: -5 }}
-                        className="bg-card rounded-3xl p-6 shadow-sm border border-border flex flex-col md:flex-row items-center gap-6"
-                    >
-                        <div className="w-full md:w-1/2 aspect-square relative rounded-xl overflow-hidden bg-white flex items-center justify-center">
-                            <img
-                                src="/images/omega_belt.jpg"
-                                alt="Omega V-Belting"
-                                className="object-contain w-full h-full"
-                                onError={(e) => {
-                                    e.currentTarget.src = "https://placehold.co/400x400/3b82f6/ffffff?text=Omega+Belt";
-                                }}
-                            />
-                        </div>
-                        <div className="flex-1 text-left">
-                            <h3 className="text-2xl font-bold mb-2">Omega ( V-Belting )</h3>
-                            <p className="text-muted-foreground mb-6">Thetaindo Prima Kencana Product Omega</p>
-                            <Link
-                                to="/products#omega"
-                                className="inline-block px-6 py-2 rounded-full bg-yellow-400 text-black font-bold hover:bg-yellow-500 transition-colors"
-                            >
-                                Read More
-                            </Link>
-                        </div>
-                    </motion.div>
-
-                    {/* Niobush */}
-                    <motion.div
-                        whileHover={{ y: -5 }}
-                        className="bg-card rounded-3xl p-6 shadow-sm border border-border flex flex-col md:flex-row items-center gap-6"
-                    >
-                        <div className="w-full md:w-1/2 aspect-square relative rounded-xl overflow-hidden bg-white flex items-center justify-center">
-                            <img
-                                src="/images/niobush.jpg"
-                                alt="Niobush Nylon Bushing"
-                                className="object-contain w-full h-full"
-                                onError={(e) => {
-                                    e.currentTarget.src = "https://placehold.co/400x400/22c55e/ffffff?text=Niobush";
-                                }}
-                            />
-                        </div>
-                        <div className="flex-1 text-left">
-                            <h3 className="text-2xl font-bold mb-2">Niobush ( Nylon Bushing )</h3>
-                            <p className="text-muted-foreground mb-6">Thetaindo Prima Kencana Product Niobush</p>
-                            <Link
-                                to="/products#niobush"
-                                className="inline-block px-6 py-2 rounded-full bg-yellow-400 text-black font-bold hover:bg-yellow-500 transition-colors"
-                            >
-                                Read More
-                            </Link>
-                        </div>
-                    </motion.div>
-
-                    {/* Zieta */}
-                    <motion.div
-                        whileHover={{ y: -5 }}
-                        className="bg-card rounded-3xl p-6 shadow-sm border border-border flex flex-col md:flex-row items-center gap-6"
-                    >
-                        <div className="w-full md:w-1/2 aspect-square relative rounded-xl overflow-hidden bg-white flex items-center justify-center">
-                            <img
-                                src="/images/zieta.jpg"
-                                alt="Zieta Welding Electrodes"
-                                className="object-contain w-full h-full"
-                                onError={(e) => {
-                                    e.currentTarget.src = "https://placehold.co/400x400/a855f7/ffffff?text=Zieta";
-                                }}
-                            />
-                        </div>
-                        <div className="flex-1 text-left">
-                            <h3 className="text-2xl font-bold mb-2">Zieta ( Welding Electrodes )</h3>
-                            <p className="text-muted-foreground mb-6">Thetaindo Prima Kencana Product Zieta</p>
-                            <Link
-                                to="/products#zieta"
-                                className="inline-block px-6 py-2 rounded-full bg-yellow-400 text-black font-bold hover:bg-yellow-500 transition-colors"
-                            >
-                                Read More
-                            </Link>
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Product Highlights */}
-            <section className="container px-4 mx-auto">
-                <div className="flex items-center justify-between mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Produk Kami</h2>
-                    <Link to="/products" className="group flex items-center gap-2 text-primary font-medium">
-                        Lihat Semua <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                </div>
-
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {products.map((product) => (
-                        <Link
-                            key={product.name}
-                            to={`/products`}
-                            className="group relative overflow-hidden rounded-2xl aspect-square flex items-end p-6 bg-secondary/50 hover:bg-secondary transition-colors"
+                    {[
+                        {
+                            id: 'theta',
+                            name: 'Theta',
+                            subtitle: 'Grease Performa Tinggi',
+                            description: 'Grease pelumas premium yang dirancang untuk kondisi ekstrem. Menjamin umur panjang dan kelancaran operasi mesin.',
+                            color: 'bg-blue-500',
+                            image: '/images/product_theta.png'
+                        },
+                        {
+                            id: 'omega',
+                            name: 'Omega',
+                            subtitle: 'Solusi V-Belting',
+                            description: 'V-Belt yang tahan lama dan efisien untuk transmisi daya optimal. Tahan terhadap keausan dan peregangan.',
+                            color: 'bg-orange-500',
+                            image: '/images/product_omega.png'
+                        },
+                        {
+                            id: 'niobush',
+                            name: 'Niobush',
+                            subtitle: 'Bushing Nilon',
+                            description: 'Bushing nilon berkualitas tinggi yang menawarkan ketahanan aus superior dan sifat melumasi sendiri.',
+                            color: 'bg-green-500',
+                            image: '/images/product_niobush.png'
+                        },
+                        {
+                            id: 'zieta',
+                            name: 'Zieta',
+                            subtitle: 'Elektroda Las',
+                            description: 'Elektroda las andal untuk hasil las yang kuat, konsisten, dan bersih di berbagai aplikasi.',
+                            color: 'bg-purple-500',
+                            image: '/images/product_zieta.png'
+                        },
+                    ].map((product, index) => (
+                        <motion.div
+                            id={product.id}
+                            key={product.id}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: index * 0.1 }}
+                            className="group relative overflow-hidden rounded-3xl bg-card border border-border shadow-sm hover:shadow-md transition-all"
                         >
-                            <div className={`absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity ${product.color}`} />
-
-                            <div className="relative z-10">
-                                <p className="text-sm font-medium text-muted-foreground mb-1">{product.category}</p>
-                                <h3 className="text-2xl font-bold tracking-tight">{product.name}</h3>
-                            </div>
-
-                            <div className="absolute top-4 right-4 opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all">
-                                <div className="p-2 rounded-full bg-background shadow-sm">
-                                    <ArrowRight className="w-4 h-4" />
+                            <div className="flex flex-col md:flex-row gap-6 p-6 md:p-8 items-center">
+                                <div className="w-full md:w-2/5 aspect-square relative rounded-2xl overflow-hidden bg-secondary/50 flex-shrink-0">
+                                    <img
+                                        src={product.image}
+                                        alt={product.name}
+                                        className="absolute inset-0 w-full h-full object-cover"
+                                        onError={(e) => {
+                                            e.currentTarget.style.display = 'none';
+                                        }}
+                                    />
+                                    <div className={`absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity ${product.color}`} />
+                                    <span className="absolute inset-0 flex items-center justify-center text-6xl font-bold text-muted-foreground/20 uppercase tracking-widest">{product.name[0]}</span>
+                                </div>
+                                <div className="flex-1">
+                                    <div className="mb-3 inline-block px-3 py-1 rounded-full bg-secondary text-secondary-foreground text-sm font-medium">
+                                        {product.subtitle}
+                                    </div>
+                                    <h3 className="text-2xl md:text-3xl font-bold mb-3">{product.name}</h3>
+                                    <p className="text-muted-foreground text-base md:text-lg mb-6 leading-relaxed">
+                                        {product.description}
+                                    </p>
+                                    <Link
+                                        to={product.id === 'theta' ? '/products/theta' : `/${product.id}`}
+                                        className="inline-flex items-center gap-2 font-medium text-primary hover:text-primary/80 transition-colors"
+                                    >
+                                        Pelajari Lebih Lanjut <ArrowRight className="w-5 h-5" />
+                                    </Link>
                                 </div>
                             </div>
-                        </Link>
+                        </motion.div>
                     ))}
                 </div>
             </section>
