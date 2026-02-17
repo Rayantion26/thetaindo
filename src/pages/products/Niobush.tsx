@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowLeft, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { asset } from '../../utils/asset';
 
 const products = [
     {
@@ -55,7 +56,7 @@ export default function NiobushProducts() {
                         <div className="grid md:grid-cols-3 gap-8">
                             <div className="md:col-span-1 relative aspect-square bg-gradient-to-br from-green-500/10 to-green-600/5 overflow-hidden">
                                 <img
-                                    src={`/images/niobush_${product.name.split(' ')[1].toLowerCase()}.png`}
+                                    src={asset(`images/niobush_${product.name.split(' ')[1].toLowerCase()}.png`)}
                                     alt={product.name}
                                     className="w-full h-full object-cover"
                                     onError={(e) => {

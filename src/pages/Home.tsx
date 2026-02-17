@@ -2,18 +2,19 @@ import { useState, useEffect } from 'react';
 import { ArrowRight, Star, Shield, Zap, TrendingUp, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { asset } from '../utils/asset';
 
 const desktopBackgrounds = [
-    "/images/landing_hero_theta.png",
-    "/images/landing_hero_omega.png",
-    "/images/landing_hero_zieta.png",
+    "images/landing_hero_theta.png",
+    "images/landing_hero_omega.png",
+    "images/landing_hero_zieta.png",
 ];
 
 const mobileBackgrounds = [
-    "/images/product_theta.png",
-    "/images/product_omega.png",
-    "/images/product_niobush.png",
-    "/images/product_zieta.png",
+    "images/product_theta.png",
+    "images/product_omega.png",
+    "images/product_niobush.png",
+    "images/product_zieta.png",
 ];
 
 const features = [
@@ -103,11 +104,10 @@ export default function Home() {
                     >
                         <div
                             className="absolute inset-0 bg-cover bg-center"
-                            style={{ backgroundImage: `url(${backgrounds[currentBgIndex]})` }}
+                            style={{ backgroundImage: `url(${asset(backgrounds[currentBgIndex])})` }}
                         />
                         {/* Subtle overlay for readability */}
                         <div className="absolute inset-0 bg-black/50" />
-                        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background/80 to-transparent" />
                     </motion.div>
                 </AnimatePresence>
 
@@ -164,7 +164,7 @@ export default function Home() {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: false, amount: 0.2 }}
                     className="text-center mb-16"
                 >
                     <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Mengapa Memilih Kami?</h2>
@@ -177,7 +177,7 @@ export default function Home() {
                             key={feature.title}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
+                            viewport={{ once: false, amount: 0.2 }}
                             transition={{ delay: index * 0.1 }}
                             className="p-6 rounded-2xl bg-card border border-border shadow-sm hover:shadow-md transition-shadow"
                         >
@@ -197,7 +197,7 @@ export default function Home() {
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: false, amount: 0.2 }}
                     >
                         <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Tentang Thetaindo Prima Kencana</h2>
                         <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
@@ -222,11 +222,11 @@ export default function Home() {
                     <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: false, amount: 0.2 }}
                         className="aspect-video rounded-3xl overflow-hidden bg-muted"
                     >
                         <img
-                            src="/images/about_us.png"
+                            src={asset('images/about_us.png')}
                             alt="Professional Welder"
                             className="object-cover w-full h-full"
                             onError={(e) => {
@@ -245,7 +245,7 @@ export default function Home() {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: false, amount: 0.2 }}
                     className="text-center mb-16"
                 >
                     <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">Produk Kami</h2>
@@ -262,7 +262,7 @@ export default function Home() {
                             subtitle: 'Grease Performa Tinggi',
                             description: 'Grease pelumas premium yang dirancang untuk kondisi ekstrem. Menjamin umur panjang dan kelancaran operasi mesin.',
                             color: 'bg-blue-500',
-                            image: '/images/product_theta.png'
+                            image: asset('images/product_theta.png')
                         },
                         {
                             id: 'omega',
@@ -270,7 +270,7 @@ export default function Home() {
                             subtitle: 'Solusi V-Belting',
                             description: 'V-Belt yang tahan lama dan efisien untuk transmisi daya optimal. Tahan terhadap keausan dan peregangan.',
                             color: 'bg-orange-500',
-                            image: '/images/product_omega.png'
+                            image: asset('images/product_omega.png')
                         },
                         {
                             id: 'niobush',
@@ -278,7 +278,7 @@ export default function Home() {
                             subtitle: 'Bushing Nilon',
                             description: 'Bushing nilon berkualitas tinggi yang menawarkan ketahanan aus superior dan sifat melumasi sendiri.',
                             color: 'bg-green-500',
-                            image: '/images/product_niobush.png'
+                            image: asset('images/product_niobush.png')
                         },
                         {
                             id: 'zieta',
@@ -286,7 +286,7 @@ export default function Home() {
                             subtitle: 'Elektroda Las',
                             description: 'Elektroda las andal untuk hasil las yang kuat, konsisten, dan bersih di berbagai aplikasi.',
                             color: 'bg-purple-500',
-                            image: '/images/product_zieta.png'
+                            image: asset('images/product_zieta.png')
                         },
                     ].map((product, index) => (
                         <motion.div
@@ -294,7 +294,7 @@ export default function Home() {
                             key={product.id}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
+                            viewport={{ once: false, amount: 0.2 }}
                             transition={{ delay: index * 0.1 }}
                         >
                             <Link

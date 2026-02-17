@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowLeft, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { asset } from '../../utils/asset';
 
 const categories = [
     {
@@ -61,7 +62,7 @@ export default function ZietaProducts() {
                 <div className="grid md:grid-cols-3 gap-8">
                     <div className="md:col-span-1 relative aspect-square bg-gradient-to-br from-purple-500/10 to-purple-600/5 overflow-hidden">
                         <img
-                            src="/images/zieta_general.png"
+                            src={asset('images/zieta_general.png')}
                             alt="Zieta Welding Electrodes"
                             className="w-full h-full object-cover"
                             onError={(e) => {

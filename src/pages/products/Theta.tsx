@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowLeft, Download, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { asset } from '../../utils/asset';
 
 const products = [
     {
@@ -10,7 +11,7 @@ const products = [
         description: 'Theta 106 Aluminium Complex soap based grease; available in NLGI grade 2 formulated with paraffin, highly refined mineral base oil, contains unleaded EP additive and oxidation, rust, and inhibitors, designed for operating condition where operation temperature is high.',
         brochure: 'https://thetaindo.com/wp-content/uploads/2025/10/theta-106.pdf',
         features: ['Tahan Suhu Tinggi', 'Aditif EP', 'Inhibitor Oksidasi & Karat'],
-        image: '/images/theta_106.png'
+        image: 'images/theta_106.png'
     },
     {
         id: 'theta-107',
@@ -19,7 +20,7 @@ const products = [
         description: 'Theta 107 Lithium Complex soap-based grease, available in NLGI grade 2, 2.5 and 3 formulated with Paraffin, highly refined mineral base oil, contains unleaded EP additive and oxidation, rust, and inhibitors; designed for operating condition where operation temperature is high.',
         brochure: 'https://thetaindo.com/wp-content/uploads/2025/10/theta-107-baru.pdf',
         features: ['Grade NLGI Serbaguna', 'Basis Lithium Complex', 'Stabilitas Termal Tinggi'],
-        image: '/images/theta_107.png'
+        image: 'images/theta_107.png'
     },
     {
         id: 'theta-108',
@@ -28,7 +29,7 @@ const products = [
         description: 'Theta 108 is a highly versatile polyurea grease with exceptional extreme pressure characteristics and excellent water resistance, recommended for use in high speed bearings even at extra heavy duty applications without carbonized.',
         brochure: 'https://thetaindo.com/wp-content/uploads/2024/11/3.png',
         features: ['Basis Polyurea', 'Tekanan Ekstrem', 'Tahan Air', 'Tanpa Karbonisasi'],
-        image: '/images/theta_108.png'
+        image: 'images/theta_108.png'
     },
 ];
 
@@ -72,7 +73,7 @@ export default function ThetaProducts() {
                             {/* Product Image */}
                             <div className="relative aspect-video bg-gradient-to-br from-blue-500/5 to-blue-600/5 overflow-hidden">
                                 <img
-                                    src={product.image}
+                                    src={asset(product.image)}
                                     alt={product.name}
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                                     onError={(e) => {

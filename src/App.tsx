@@ -11,8 +11,9 @@ import OmegaProducts from './pages/products/Omega';
 import ZietaProducts from './pages/products/Zieta';
 
 function App() {
+  const basename = import.meta.env.BASE_URL.replace(/\/+$/, '') || '/';
   return (
-    <Router>
+    <Router basename={basename}>
       <ScrollToHash />
       <Routes>
         <Route element={<Layout />}>

@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
 import MobileDrawer from './MobileDrawer';
+import SearchOverlay from './SearchOverlay';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export default function Layout() {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
     const location = useLocation();
 
     // Close drawer and scroll to top on route change
@@ -16,19 +18,20 @@ export default function Layout() {
 
     return (
         <div className="flex flex-col min-h-screen bg-background text-foreground font-sans overflow-x-hidden">
-            <Navbar onMenuClick={() => setIsDrawerOpen(true)} />
+            <Navbar onMenuClick={() => setIsDrawerOpen(true)} onSearchClick={() => setIsSearchOpen(true)} />
 
             <MobileDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
+            <SearchOverlay isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
             <main className="flex-grow pt-16">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={location.pathname}
-                        initial={{ opacity: 0, y: -40 }}
+                        initial={{ opacity: 0, y: -100 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -40 }}
+                        exit={{ opacity: 0, y: -100 }}
                         transition={{
-                            duration: 0.25,
+                            duration: 0.3,
                             ease: [0.25, 0.1, 0.25, 1],
                         }}
                         className="w-full"
@@ -76,7 +79,7 @@ export default function Layout() {
                         <div className="flex flex-col items-center md:items-start text-center md:text-left">
                             <div className="flex items-center gap-2 mb-4">
                                 <img
-                                    src="/images/logo.png"
+                                    src={`${import.meta.env.BASE_URL}images/logo.png`}
                                     alt="Thetaindo Logo"
                                     className="h-8 w-auto object-contain"
                                     onError={(e) => {
