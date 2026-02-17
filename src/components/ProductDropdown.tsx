@@ -33,13 +33,7 @@ const productList = [
         name: 'Zieta',
         path: '/zieta',
         description: 'Elektroda Las',
-        items: [
-            { name: 'Zieta 308', path: '/zieta#zieta-308' },
-            { name: 'Zieta 309', path: '/zieta#zieta-309' },
-            { name: 'Zieta 310', path: '/zieta#zieta-310' },
-            { name: 'Zieta 312', path: '/zieta#zieta-312' },
-            { name: 'Zieta 316', path: '/zieta#zieta-316' },
-        ]
+        items: []
     },
 ];
 

@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { X, ChevronRight, Home, MapPin, Phone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -37,13 +37,7 @@ const productItems = [
     },
     {
         name: 'Zieta', path: '/zieta', description: 'Welding Electrodes',
-        subItems: [
-            { name: 'Zieta 308', path: '/zieta#zieta-308' },
-            { name: 'Zieta 309', path: '/zieta#zieta-309' },
-            { name: 'Zieta 310', path: '/zieta#zieta-310' },
-            { name: 'Zieta 312', path: '/zieta#zieta-312' },
-            { name: 'Zieta 316', path: '/zieta#zieta-316' },
-        ]
+        subItems: []
     },
 ];
 
@@ -53,6 +47,18 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
     const drawerRef = useRef<HTMLDivElement>(null);
     const touchStartX = useRef(0);
     const touchCurrentX = useRef(0);
+
+    // Prevent scrolling when drawer is open
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isOpen]);
 
     const handleTouchStart = (e: React.TouchEvent) => {
         touchStartX.current = e.touches[0].clientX;
@@ -83,83 +89,88 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
         <AnimatePresence>
             {isOpen && (
                 <>
-                    {/* Backdrop */}
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        onClick={onClose}
-                        className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm"
-                    />
-
-                    {/* Drawer */}
-                    <motion.div
-                        ref={drawerRef}
-                        initial={{ x: '-100%' }}
-                        animate={{ x: 0 }}
-                        exit={{ x: '-100%' }}
-                        transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                    {/* Full-screen touch area wrapper */}
+                    <div
+                        className="fixed inset-0 z-50 flex"
                         onTouchStart={handleTouchStart}
                         onTouchMove={handleTouchMove}
                         onTouchEnd={handleTouchEnd}
-                        className="fixed top-0 left-0 bottom-0 z-50 w-[80%] max-w-sm bg-background border-r border-border shadow-2xl flex flex-col"
                     >
-                        <div className="p-4 border-b border-border flex items-center justify-between">
-                            <span className="font-bold text-lg">Menu</span>
-                            <button
-                                onClick={onClose}
-                                className="p-2 rounded-full hover:bg-accent active:scale-95 transition-all"
-                            >
-                                <X className="w-5 h-5" />
-                            </button>
-                        </div>
+                        {/* Backdrop */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={onClose}
+                            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+                        />
 
-                        <div className="flex-1 overflow-y-auto py-4">
-                            <nav className="flex flex-col gap-1 px-2">
-                                {menuItems.map((item) => {
-                                    const isActive = location.pathname === item.path;
-                                    const Icon = item.icon;
+                        {/* Drawer */}
+                        <motion.div
+                            ref={drawerRef}
+                            initial={{ x: '-100%' }}
+                            animate={{ x: 0 }}
+                            exit={{ x: '-100%' }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                            className="relative w-[80%] max-w-sm bg-background border-r border-border shadow-2xl flex flex-col h-full"
+                        >
+                            <div className="p-4 border-b border-border flex items-center justify-between">
+                                <span className="font-bold text-lg">Menu</span>
+                                <button
+                                    onClick={onClose}
+                                    className="p-2 rounded-full hover:bg-accent active:scale-95 transition-all"
+                                >
+                                    <X className="w-5 h-5" />
+                                </button>
+                            </div>
 
-                                    return (
-                                        <Link
-                                            key={item.path}
-                                            to={item.path}
-                                            onClick={onClose}
-                                            className={cn(
-                                                "flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-sm font-semibold",
-                                                isActive
-                                                    ? "bg-primary text-primary-foreground shadow-sm"
-                                                    : "hover:bg-accent text-foreground hover:text-accent-foreground"
-                                            )}
-                                        >
-                                            <Icon className="w-5 h-5" />
-                                            <span className="flex-1">{item.label}</span>
-                                            {!isActive && <ChevronRight className="w-4 h-4 text-muted-foreground/50" />}
-                                        </Link>
-                                    );
-                                })}
+                            <div className="flex-1 overflow-y-auto py-4">
+                                <nav className="flex flex-col gap-1 px-2">
+                                    {menuItems.map((item) => {
+                                        const isActive = location.pathname === item.path;
+                                        const Icon = item.icon;
 
-                                {/* Product Section */}
-                                <div className="mt-2 pt-2 border-t border-border">
-                                    <span className="px-4 py-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">Produk</span>
-                                    {productItems.map((product) => (
-                                        <MobileProductItem
-                                            key={product.path}
-                                            product={product}
-                                            onClose={onClose}
-                                            onNavigate={handleProductNav}
-                                        />
-                                    ))}
-                                </div>
-                            </nav>
-                        </div>
+                                        return (
+                                            <Link
+                                                key={item.path}
+                                                to={item.path}
+                                                onClick={onClose}
+                                                className={cn(
+                                                    "flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-sm font-semibold",
+                                                    isActive
+                                                        ? "bg-primary text-primary-foreground shadow-sm"
+                                                        : "hover:bg-accent text-foreground hover:text-accent-foreground"
+                                                )}
+                                            >
+                                                <Icon className="w-5 h-5" />
+                                                <span className="flex-1">{item.label}</span>
+                                                {!isActive && <ChevronRight className="w-4 h-4 text-muted-foreground/50" />}
+                                            </Link>
+                                        );
+                                    })}
 
-                        <div className="p-4 border-t border-border mt-auto">
-                            <p className="text-xs text-muted-foreground text-center">
-                                Thetaindo App v1.0
-                            </p>
-                        </div>
-                    </motion.div>
+                                    {/* Product Section */}
+                                    <div className="mt-2 pt-2 border-t border-border">
+                                        <span className="px-4 py-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">Produk</span>
+                                        {productItems.map((product) => (
+                                            <MobileProductItem
+                                                key={product.path}
+                                                product={product}
+                                                onClose={onClose}
+                                                onNavigate={handleProductNav}
+                                            />
+                                        ))}
+                                    </div>
+                                </nav>
+                            </div>
+
+                            <div className="p-4 border-t border-border mt-auto">
+                                <p className="text-xs text-muted-foreground text-center">
+                                    Thetaindo App v1.0
+                                </p>
+                            </div>
+                        </motion.div>
+                    </div>
                 </>
             )}
         </AnimatePresence>

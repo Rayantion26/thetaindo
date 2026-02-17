@@ -66,8 +66,8 @@ export default function Layout() {
         const yDist = Math.abs(touchEndY - touchStartY.current);
 
         // If swipe right > 50px and vertical movement is small (intentional horizontal swipe)
-        // AND start point was near the left edge (< 30px)
-        if (dist > 50 && yDist < 50 && touchStartX.current < 30) {
+        // AND start point was within the left zone (< 80px) - increased from 30px
+        if (dist > 50 && yDist < 50 && touchStartX.current < 80) {
             setIsDrawerOpen(true);
         }
     };
