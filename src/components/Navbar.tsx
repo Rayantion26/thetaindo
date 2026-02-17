@@ -51,13 +51,15 @@ export default function Navbar({ onMenuClick, onSearchClick }: NavbarProps) {
                             e.currentTarget.nextElementSibling?.classList.remove('hidden');
                         }}
                     />
-                    <span className="hidden md:inline text-xl font-bold tracking-tight">Thetaindo Prima Kencana</span>
+                    <span className="hidden text-xl font-bold tracking-tight">Thetaindo Prima Kencana</span>
                 </Link>
             </div>
 
             <div className="hidden md:flex items-center gap-8 text-sm font-medium text-muted-foreground">
                 <Link to="/" className="hover:text-primary transition-colors">Beranda</Link>
-                <ProductDropdown />
+                <div className="relative group">
+                    <ProductDropdown />
+                </div>
                 <Link to="/branch" className="hover:text-primary transition-colors">Cabang Kami</Link>
                 <Link to="/contact" className="hover:text-primary transition-colors">Hubungi Kami</Link>
             </div>
@@ -65,10 +67,11 @@ export default function Navbar({ onMenuClick, onSearchClick }: NavbarProps) {
             <div className="flex items-center gap-2">
                 <button
                     onClick={onSearchClick}
-                    className="p-2 rounded-full hover:bg-accent transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/50 hover:bg-secondary border border-border transition-all group"
                     aria-label="Search"
                 >
-                    <Search className="w-5 h-5 text-muted-foreground" />
+                    <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">Search</span>
+                    <Search className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
                 </button>
             </div>
         </motion.nav>
